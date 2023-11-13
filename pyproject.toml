@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "finalprojectrepo"
+version = "0.1.0"
+description = "A movie recommendation app using IMDb API and Plotly"
+authors = ["AlexSarbuG <sarbu.alex.s89@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.31.0"
+tk = "^0.1.0"
+plotly = "^5.18.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
