@@ -7,11 +7,10 @@ class MovieRecommendationApp:
 
     def search_movie(self, query):  # Functionalitatea de cautare a filmelor in API-ul IMDb
         # Utilizeaza requests pentru a face cererea API
-        endpoint = "/API/SearchMovie/"
-        params = {"api_key": self.api_key, "q": query}
+        endpoint = "/API/SearchMovie/" + self.api_key + "/" + query + "/"
 
         try:
-            response = requests.get(f"{self.base_url}{endpoint}", params=params)
+            response = requests.get(f"{self.base_url}{endpoint}")
             response.raise_for_status()  # Ridica o exceptie daca cererea a esuat
             print(response.request.url)
 
@@ -54,7 +53,7 @@ class MovieRecommendationApp:
 if __name__ == "__main__":
     app = MovieRecommendationApp()
     # Exemplu de utilizare pentru a cauta un film si obtine recomandari pentru el
-    movie_search_result = app.search_movie("The Shawshank Redemption")
+    movie_search_result = app.search_movie("fast")
 
     if movie_search_result is not None:
         if "results" in movie_search_result and movie_search_result["results"]:
