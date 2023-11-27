@@ -63,9 +63,58 @@
 
 ## Code Samples:
 ### 1. MovieRecommendationApp Code:
-#### (... The existing MovieRecommendationApp class ...)
+
+```python
+def search_movie(self, query):
+    endpoint = f"/API/SearchMovie/{self.api_key}/{query}/"
+
+    try:
+        response = requests.get(f"{self.base_url}{endpoint}")
+        response.raise_for_status()
+
+    except requests.exceptions.RequestException as e:
+        print(f"An error occurred during the request: {e}")
+        return None
+
+    else:
+        if response.status_code == 200:
+            return response.json()
+        else:
+            print(f"Received a non-200 status code: {response.status_code}")
+            return None
+```
+
 ### 2. MovieRecommendationGUI Code:
-#### # (... The existing MovieRecommendationGUI class ...)
+```python
+def get_recommendations(self):
+    query = self.entry.get()
+    search_result = self.app.search_movie(query)
+
+    if search_result and "results" in search_result and search_result["results"]:
+        # Șterge conținutul secțiunii de recomandări
+        self.recommendations_text.delete(1.0, tk.END)
+
+        for movie in search_result["results"]:
+            movie_id = movie["id"]
+            recommendations = self.app.get_movie_recommendations(movie_id)
+
+            if recommendations and "items" in recommendations:
+                for recommendation in recommendations["items"]:
+                    # Adaugă fiecare recomandare pe un rând nou în self.recommendations_text
+                    self.recommendations_text.insert(tk.END, recommendation["title"] + "\n")
+
+        # Șterge conținutul secțiunii a doua
+        self.second_reviews_text.delete(1.0, tk.END)
+        self.second_reviews_text.insert(tk.END, "No additional info available.\n")
+    else:
+        # Șterge conținutul secțiunii a doua
+        self.second_reviews_text.delete(1.0, tk.END)
+        self.second_reviews_text.insert(tk.END, "No results found for your search.")
+
+        # Șterge conținutul secțiunii de recomandări
+        self.recommendations_text.delete(1.0, tk.END)
+```
+
 
 ## Execution:
 #### Run the application by executing the following script:
